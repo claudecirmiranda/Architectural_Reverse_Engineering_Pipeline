@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pitch Deck Executivo</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+:root {
+--orange:#E8450A;--orange-light:#FF6B35;--orange-pale:#FFF4EF;--orange-border:#FDDCC8;
+--navy:#1A1F36;--gray-50:#F8F9FB;--gray-100:#F1F3F6;--gray-200:#E4E8EF;
+--gray-300:#C8D0DC;--gray-500:#7A8599;--gray-700:#3D4659;
+--green:#12B76A;--green-light:#ECFDF3;--amber:#F79009;--amber-light:#FFFAEB;
+--red:#F04438;--red-light:#FEF3F2;--blue-light:#EFF8FF;--blue:#1570EF;
+--shadow-sm:0 1px 3px rgba(0,0,0,0.07),0 1px 2px rgba(0,0,0,0.04);
+--shadow-md:0 4px 16px rgba(0,0,0,0.08),0 2px 8px rgba(0,0,0,0.05);
+--shadow-lg:0 12px 40px rgba(0,0,0,0.10),0 4px 16px rgba(0,0,0,0.06);
+--radius:12px;--radius-sm:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--gray-50);color:var(--navy);line-height:1.6;}
+h1,h2,h3,h4,h5{font-family:'Sora',sans-serif;}
+.topnav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid var(--gray-200);
+display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:56px;
+box-shadow:var(--shadow-sm);}
+.nav-logo{width:36px;height:36px;border-radius:10px;background:var(--orange);display:flex;
+align-items:center;justify-content:center;font-family:'Sora',sans-serif;
+font-weight:800;font-size:13px;color:#fff;letter-spacing:-0.5px;}
+.section{padding:64px 40px;}
+.section:nth-child(odd){background:#fff;}
+.section:nth-child(even){background:var(--gray-50);}
+.section-label{display:inline-block;background:var(--orange-pale);color:var(--orange);
+border:1px solid var(--orange-border);font-size:11px;font-weight:600;
+padding:4px 12px;border-radius:20px;margin-bottom:20px;letter-spacing:0.3px;}
+.section-title{font-size:38px;font-weight:800;line-height:1.15;color:var(--navy);margin-bottom:12px;}
+.section-heading{font-size:26px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.section-sub{font-size:16px;color:var(--gray-500);max-width:560px;margin-bottom:32px;}
+.section-desc{font-size:14px;color:var(--gray-500);margin-bottom:28px;}
+.card{background:#fff;border:1.5px solid var(--gray-200);border-radius:var(--radius);
+padding:24px 28px;box-shadow:var(--shadow-sm);transition:box-shadow 0.2s,transform 0.15s;}
+.card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);}
+.card.critical{border-color:var(--red);}
+.card.high{border-color:var(--amber);}
+.card.medium{border-color:#EAB308;}
+.card.positive{border-color:var(--green);}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;
+letter-spacing:0.5px;padding:3px 10px;border-radius:20px;text-transform:uppercase;}
+.badge-red{background:var(--red-light);color:var(--red);}
+.badge-amber{background:var(--amber-light);color:var(--amber);}
+.badge-green{background:var(--green-light);color:var(--green);}
+.badge-blue{background:var(--blue-light);color:var(--blue);}
+.badge-gray{background:var(--gray-100);color:var(--gray-700);}
+.badge-orange{background:var(--orange-pale);color:var(--orange);}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--orange);
+color:#fff;padding:12px 24px;border-radius:var(--radius-sm);font-weight:600;
+font-size:14px;border:none;cursor:pointer;transition:background 0.18s,transform 0.1s;
+text-decoration:none;}
+.btn-primary:hover{background:var(--orange-light);transform:translateY(-1px);}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;background:transparent;
+color:var(--navy);padding:12px 24px;border-radius:var(--radius-sm);font-weight:600;
+font-size:14px;border:1.5px solid var(--gray-200);cursor:pointer;
+transition:border-color 0.18s,background 0.18s;text-decoration:none;}
+.btn-outline:hover{border-color:var(--orange);background:var(--orange-pale);}
+.tabs{display:flex;background:var(--gray-100);border-radius:var(--radius-sm);
+padding:4px;gap:2px;width:fit-content;margin-bottom:28px;flex-wrap:wrap;}
+.tab-btn{padding:9px 22px;border-radius:6px;font-size:13px;font-weight:500;
+color:var(--gray-500);background:transparent;border:none;cursor:pointer;
+transition:all 0.18s;white-space:nowrap;}
+.tab-btn.active{background:#fff;color:var(--navy);font-weight:600;box-shadow:var(--shadow-sm);}
+.tab-btn:hover:not(.active){color:var(--navy);background:rgba(255,255,255,0.6);}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;animation:fadeIn 0.2s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.subtabs{display:flex;gap:4px;margin-bottom:24px;flex-wrap:wrap;}
+.subtab-btn{padding:8px 20px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;
+color:var(--gray-500);background:var(--gray-100);border:none;cursor:pointer;transition:all 0.18s;}
+.subtab-btn.active{background:#fff;color:var(--navy);font-weight:600;
+box-shadow:var(--shadow-sm);border:1px solid var(--gray-200);}
+.subtab-panel{display:none;}
+.subtab-panel.active{display:block;animation:fadeIn 0.2s ease;}
+.zoom-modal{display:none;position:fixed;inset:0;z-index:999;
+background:rgba(10,14,28,0.85);backdrop-filter:blur(6px);
+align-items:center;justify-content:center;padding:32px;}
+.zoom-modal.open{display:flex;}
+.zoom-modal-inner{background:#1e2540;border-radius:var(--radius);max-width:95vw;
+max-height:90vh;overflow:auto;padding:24px;position:relative;
+box-shadow:0 32px 80px rgba(0,0,0,0.5);}
+.zoom-modal-close{position:absolute;top:12px;right:12px;z-index:10;
+background:rgba(255,255,255,0.15);border:none;color:#fff;width:36px;height:36px;
+border-radius:8px;font-size:18px;cursor:pointer;display:flex;
+align-items:center;justify-content:center;transition:background 0.15s;}
+.zoom-modal-close:hover{background:rgba(255,255,255,0.3);}
+.data-table{width:100%;border-collapse:collapse;}
+.data-table th{text-align:left;font-size:12px;font-weight:600;color:var(--gray-500);
+padding:10px 16px;border-bottom:1px solid var(--gray-200);
+text-transform:uppercase;letter-spacing:0.4px;}
+.data-table td{padding:14px 16px;font-size:14px;border-bottom:1px solid var(--gray-100);}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table tr:hover td{background:var(--gray-50);}
+.data-table td.bold{font-weight:700;font-size:15px;font-family:'Sora',sans-serif;}
+.insights-box{background:var(--blue-light);border:1px solid #C2D9FF;
+border-radius:var(--radius);padding:20px 24px;margin-top:24px;}
+.insights-box .label{font-size:13px;font-weight:700;color:var(--blue);margin-bottom:10px;}
+.insights-box ul{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.insights-box li{font-size:13px;color:var(--navy);padding-left:14px;position:relative;}
+.insights-box li::before{content:'•';position:absolute;left:0;color:var(--blue);font-weight:700;}
+.insights-box li b{color:var(--blue);}
+.warn-box{background:var(--red-light);border:1px solid #FECACA;
+border-left:4px solid var(--red);border-radius:var(--radius);padding:20px 24px;}
+.warn-box .label{font-size:13px;font-weight:700;color:var(--red);margin-bottom:10px;}
+.success-box{background:var(--green-light);border:1px solid #A7F3D0;
+border-left:4px solid var(--green);border-radius:var(--radius);padding:20px 24px;}
+.success-box .label{font-size:13px;font-weight:700;color:var(--green);margin-bottom:8px;}
+.metric-cards{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:32px;}
+.metric-card{background:#fff;border:1.5px solid var(--gray-200);border-radius:var(--radius);
+padding:24px 28px;box-shadow:var(--shadow-sm);flex:1;min-width:160px;}
+.metric-card .value{font-size:42px;font-weight:800;font-family:'Sora',sans-serif;
+color:var(--green);line-height:1.1;margin-bottom:6px;}
+.metric-card .label{font-size:13px;color:var(--gray-500);font-weight:500;}
+.metric-card .sublabel{font-size:12px;color:var(--gray-300);margin-top:4px;}
+.hero{min-height:100vh;background:#F5EDE0;display:flex;flex-direction:column;
+  justify-content:center;padding:80px 40px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 60% 40%,rgba(232,69,10,0.10) 0%,transparent 70%),
+             radial-gradient(ellipse 50% 40% at 20% 80%,rgba(232,69,10,0.06) 0%,transparent 60%);
+  pointer-events:none;}
+.hero-label{display:inline-block;background:rgba(232,69,10,0.10);color:#C13A06;
+  border:1px solid rgba(232,69,10,0.25);font-size:11px;font-weight:600;
+  padding:4px 14px;border-radius:20px;margin-bottom:24px;letter-spacing:0.4px;}
+.hero h1{font-size:52px;font-weight:800;color:var(--navy);line-height:1.1;
+  max-width:760px;margin-bottom:20px;}
+.hero-sub{font-size:18px;color:#6B5E52;max-width:580px;margin-bottom:36px;}
+.hero-inflection{background:rgba(255,255,255,0.55);border:1px solid #EDD9C0;
+  border-left:4px solid var(--orange);border-radius:var(--radius);
+  padding:20px 24px;max-width:640px;margin-bottom:48px;backdrop-filter:blur(4px);}
+.hero-inflection .label{font-size:11px;color:var(--orange);font-weight:700;
+  text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;}
+.hero-inflection p{font-size:16px;color:#3D3028;font-style:italic;line-height:1.55;}
+.hero-metrics{display:flex;gap:0;border-top:1px solid #DDD0C2;
+  padding-top:32px;flex-wrap:wrap;}
+.hero-metric{flex:1;min-width:120px;padding:0 28px 0 0;}
+.hero-metric:first-child{padding-left:0;}
+.hero-metric .value{font-size:32px;font-weight:800;font-family:'Sora',sans-serif;
+  color:var(--orange);}
+.hero-metric .label{font-size:12px;color:#A89485;margin-top:3px;}
+.roadmap-phases{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:32px;}
+.phase-card{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--gray-200);
+border-radius:var(--radius);padding:20px 24px;box-shadow:var(--shadow-sm);
+border-top:4px solid var(--orange);}
+.phase-card .phase-num{font-size:11px;font-weight:700;color:var(--orange);
+text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;}
+.phase-card .phase-name{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.phase-card .phase-period{font-size:12px;color:var(--gray-500);margin-bottom:12px;}
+.phase-card ul{list-style:none;display:flex;flex-direction:column;gap:5px;}
+.phase-card li{font-size:13px;color:var(--gray-700);padding-left:14px;position:relative;}
+.phase-card li::before{content:'→';position:absolute;left:0;color:var(--orange);font-size:11px;}
+.chart-wrap{background:#fff;border-radius:var(--radius);border:1px solid var(--gray-200);
+padding:28px;box-shadow:var(--shadow-sm);}
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.chart-title{font-size:15px;font-weight:600;margin-bottom:20px;color:var(--navy);}
+.decision-table{width:100%;border-collapse:collapse;}
+.decision-table th{text-align:left;font-size:11px;font-weight:700;color:var(--gray-500);
+padding:10px 16px;border-bottom:2px solid var(--gray-200);
+text-transform:uppercase;letter-spacing:0.5px;background:var(--gray-50);}
+.decision-table td{padding:14px 16px;font-size:13px;border-bottom:1px solid var(--gray-100);
+vertical-align:top;}
+.decision-table tr:last-child td{border-bottom:none;}
+.decision-table tr:hover td{background:var(--gray-50);}
+.zoom-trigger{cursor:zoom-in;position:relative;}
+.zoom-overlay{position:absolute;inset:0;display:flex;align-items:center;
+justify-content:center;background:rgba(0,0,0,0.35);opacity:0;transition:opacity 0.2s;}
+.zoom-overlay-btn{background:rgba(255,255,255,0.15);color:#fff;
+border:1.5px solid rgba(255,255,255,0.4);padding:10px 18px;border-radius:8px;
+font-size:13px;font-weight:600;backdrop-filter:blur(4px);}
+@media(max-width:900px){
+.hero h1{font-size:34px;}
+.section{padding:48px 20px;}
+.chart-grid{grid-template-columns:1fr;}
+.metric-cards{flex-direction:column;}
+}
+
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <div class="nav-logo">
+    <span>NP</span>
+  </div>
+  <div>
+    <strong>Naviaí Tecnologia</strong>
+    <span>Transformação Digital</span>
+  </div>
+  <div style="text-align: right;">
+    <strong>Pitch Deck Executivo</strong>
+    <div style="font-size: 0.85em; color: var(--text-secondary);">Arquitetura e Roadmap Estratégico</div>
+  </div>
+</nav>
+
+<section class="hero" id="inicio">
+  <div class="hero-label">Pitch Deck Executivo · 2025</div>
+  <h1>Transformação Digital NAV 360</h1>
+  <div class="hero-sub">Consolidação da liderança tecnológica através da resolução de gaps críticos e habilitação de funcionalidades estratégicas</div>
+  
+  <div class="hero-inflection">
+    <div class="label">Ponto de Inflexão</div>
+    <p>Ecossistema fragmentado com potencial alto — 38 aplicações em stack moderno mas com maturidade heterogênea. Temos a base técnica, mas falta orquestração estratégica. Janela crítica de 12-18 meses para consolidar liderança antes que complexidade torne transformação inviável.</p>
+  </div>
+  
+  <div class="hero-metrics">
+    <div class="hero-metric">
+      <div class="value">38</div>
+      <div class="label">Aplicações</div>
+      <div class="sublabel">Stack moderno estabelecido</div>
+    </div>
+    <div class="hero-metric">
+      <div class="value">61%</div>
+      <div class="label">GAPs Críticos</div>
+      <div class="sublabel">Observabilidade e testes</div>
+    </div>
+    <div class="hero-metric">
+      <div class="value">R$ 4.2MM</div>
+      <div class="label">Investimento</div>
+      <div class="sublabel">ROI 3x projetado</div>
+    </div>
+    <div class="hero-metric">
+      <div class="value">20</div>
+      <div class="label">Meses</div>
+      <div class="sublabel">Roadmap de transformação</div>
+    </div>
+  </div>
+  
+  <div style="display: flex; gap: 16px; margin-top: 32px;">
+    <a href="#diagnostico" class="btn-primary">Ver Diagnóstico →</a>
+    <a href="#roadmap" class="btn-outline">Ir para o Roadmap</a>
+  </div>
+</section>
+
+<section class="section" id="contexto">
+  <div class="section-label">Por que agir agora?</div>
+  <h2 class="section-title">Contexto Estratégico</h2>
+  
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:32px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <div class="card">
+        <h4>💼 Executivos</h4>
+        <p>Visibilidade limitada de ROI técnico e risco de não atingir metas estratégicas NAV 360 sem métricas claras de investimento.</p>
+      </div>
+      <div class="card">
+        <h4>⚙️ Operações</h4>
+        <p>MTTR alto de 45min média, incidentes P1/P2 frequentes e deployment manual arriscado impactam SLA e confiabilidade.</p>
+      </div>
+      <div class="card">
+        <h4>👨‍💻 Desenvolvimento</h4>
+        <p>Onboarding lento de 3+ meses, debugging complexo sem observabilidade e retrabalho por falta de padrões arquiteturais.</p>
+      </div>
+      <div class="card">
+        <h4>📱 Product Owners</h4>
+        <p>Time-to-market lento de 12 semanas, dificuldade para escalar features cross-domain e experiência inconsistente entre canais.</p>
+      </div>
+    </div>
+    
+    <div class="card" style="border-color:var(--orange);background:var(--orange-pale)">
+      <div class="section-label">Urgência</div>
+      <p style="font-style:italic">"Com stack moderno estabelecido e equipe experiente, temos 12-18 meses para consolidar liderança tecnológica antes que complexidade e débito técnico tornem transformação inviável"</p>
+      <div style="color: var(--orange); font-weight: 600; margin-top: 16px;">Executive Summary</div>
+    </div>
+  </div>
+</section>
+<section class="section" id="diagnostico">
+  <div class="section-label">Diagnóstico</div>
+  <h2 class="section-heading">Onde estamos hoje</h2>
+  
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="visao">Visão Geral</button>
+    <button class="tab-btn" data-tab="maturidade">Maturidade</button>
+    <button class="tab-btn" data-tab="dados">Inventário Técnico</button>
+  </div>
+  
+  <div class="tab-panel active" id="tab-visao">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+      <div class="card critical">
+        <div class="badge badge-red">GAP-001</div>
+        <h4>APM/Observabilidade Ausente</h4>
+        <p>MTTR 3x maior que benchmark, debugging lento impacta entrega. Incidentes P1/P2 frequentes sem visibilidade de root cause.</p>
+      </div>
+      
+      <div class="card critical">
+        <div class="badge badge-red">GAP-002</div>
+        <h4>Testes Automatizados Ausentes</h4>
+        <p>Bugs em produção, deployment arriscado e baixa confiança. 82% das aplicações sem cobertura estruturada de testes.</p>
+      </div>
+      
+      <div class="card critical">
+        <div class="badge badge-red">GAP-003</div>
+        <h4>Documentação Arquitetural Inconsistente</h4>
+        <p>Onboarding lento (3+ meses), decisões inconsistentes e acúmulo de débito técnico por falta de padrões claros.</p>
+      </div>
+      
+      <div class="card high">
+        <div class="badge badge-amber">GAP-004</div>
+        <h4>Secrets Management Fragmentado</h4>
+        <p>Risco de compliance e vulnerabilidades de segurança. 28 aplicações com gestão inconsistente de credenciais.</p>
+      </div>
+      
+      <div class="card high">
+        <div class="badge badge-amber">GAP-005</div>
+        <h4>Health Checks Não Padronizados</h4>
+        <p>Detecção lenta de falhas, recovery manual e SLA impactado. 23 aplicações sem monitoramento adequado de saúde.</p>
+      </div>
+      
+      <div class="card high">
+        <div class="badge badge-amber">GAP-006</div>
+        <h4>Arquitetura Não Estruturada</h4>
+        <p>Features lentas para desenvolver, manutenção complexa e novos desenvolvedores perdidos sem direcionamento claro.</p>
+      </div>
+      
+      <div class="card medium">
+        <div class="badge badge-gray">GAP-007</div>
+        <h4>Service Mesh Ausente</h4>
+        <p>Comunicação entre serviços não observável, falta de políticas de segurança automáticas e circuit breakers manuais.</p>
+      </div>
+      
+      <div class="card medium">
+        <div class="badge badge-gray">GAP-008</div>
+        <h4>Event-Driven Architecture Limitado</h4>
+        <p>Integrações síncronas criam gargalos, baixa resiliência e dificuldade para escalar funcionalidades cross-domain.</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="tab-panel" id="tab-maturidade">
+    <div class="zoom-trigger" onclick="openZoom('maturidade-svg')">
+      <svg id="maturidade-svg" width="800" height="420" style="background: #1e2540; border-radius: 12px; padding: 20px;">
+        <!-- Título -->
+        <text x="400" y="30" text-anchor="middle" fill="#ffffff" font-size="18" font-weight="bold">Maturidade por Domínio - Atual vs Alvo</text>
+        
+        <!-- Grid lines -->
+        <defs>
+          <pattern id="grid" width="80" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 80 0 L 0 0 0 40" fill="none" stroke="#334155" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+        <rect x="60" y="60" width="640" height="320" fill="url(#grid)" opacity="0.3"/>
+        
+        <!-- Y-axis labels -->
+        <text x="50" y="70" text-anchor="end" fill="#94a3b8" font-size="12">100%</text>
+        <text x="50" y="150" text-anchor="end" fill="#94a3b8" font-size="12">75%</text>
+        <text x="50" y="230" text-anchor="end" fill="#94a3b8" font-size="12">50%</text>
+        <text x="50" y="310" text-anchor="end" fill="#94a3b8" font-size="12">25%</text>
+        <text x="50" y="390" text-anchor="end" fill="#94a3b8" font-size="12">0%</text>
+        
+        <!-- Autenticação -->
+        <rect x="70" y="152" width="50" height="228" fill="#ef4444" opacity="0.7"/>
+        <rect x="125" y="68" width="50" height="312" fill="#22c55e" opacity="0.7"/>
+        <text x="97" y="400" text-anchor="middle" fill="#e2e8f0" font-size="10">Auth</text>
+        
+        <!-- BFFs GraphQL -->
+        <rect x="190" y="136" width="50" height="244" fill="#ef4444" opacity="0.7"/>
+        <rect x="245" y="68" width="50" height="312" fill="#22c55e" opacity="0.7"/>
+        <text x="217" y="400" text-anchor="middle" fill="#e2e8f0" font-size="10">BFFs</text>
+        
+        <!-- Containerização -->
+        <rect x="310" y="68" width="50" height="312" fill="#ef4444" opacity="0.7"/>
+        <rect x="365" y="52" width="50" height="328" fill="#22c55e" opacity="0.7"/>
+        <text x="337" y="400" text-anchor="middle" fill="#e2e8f0" font-size="10">Container</text>
+        
+        <!-- Observabilidade -->
+        <rect x="430" y="300" width="50" height="80" fill="#ef4444" opacity="0.7"/>
+        <rect x="485" y="68" width="50" height="312" fill="#22c55e" opacity="0.7"/>
+        <text x="457" y="400" text-anchor="middle" fill="#e2e8f0" font-size="10">APM</text>
+        
+        <!-- Testes -->
+        <rect x="550" y="316" width="50" height="64" fill="#ef4444" opacity="0.7"/>
+        <rect x="605" y="68" width="50" height="312" fill="#22c55e" opacity="0.7"/>
+        <text x="577" y="400" text-anchor="middle" fill="#e2e8f0" font-size="10">Testes</text>
+        
+        <!-- Legenda -->
+        <rect x="720" y="100" width="15" height="15" fill="#ef4444" opacity="0.7"/>
+        <text x="745" y="112" fill="#e2e8f0" font-size="12">Atual</text>
+        <rect x="720" y="130" width="15" height="15" fill="#22c55e" opacity="0.7"/>
+        <text x="745" y="142" fill="#e2e8f0" font-size="12">Alvo</text>
+      </svg>
+      <div class="zoom-overlay">
+        <div class="zoom-overlay-btn">👁 Visualizar</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="tab-panel" id="tab-dados">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Componente</th>
+          <th>Versão/Estado</th>
+          <th>Criticidade</th>
+          <th>Observação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>React Native Mobile</td>
+          <td>0.72.x</td>
+          <td><span class="badge badge-green">Alta</span></td>
+          <td>Stack moderno, boa maturidade</td>
+        </tr>
+        <tr>
+          <td>React Web SPA</td>
+          <td>18.x</td>
+          <td><span class="badge badge-green">Alta</span></td>
+          <td>Atualizado, performance adequada</td>
+        </tr>
+        <tr>
+          <td>BFFs GraphQL</td>
+          <td>Node.js 18/TS 4.9</td>
+          <td><span class="badge badge-green">Alta</span></td>
+          <td>Arquitetura moderna, 94% apps</td>
+        </tr>
+        <tr>
+          <td>Kubernetes Clusters</td>
+          <td>1.27.x</td>
+          <td><span class="badge badge-green">Média</span></td>
+          <td>66% apps containerizadas</td>
+        </tr>
+        <tr>
+          <td>Keycloak Authentication</td>
+          <td>15.x Multi-realm</td>
+          <td><span class="badge badge-amber">Alta</span></td>
+          <td>Funcional mas múltiplos realms</td>
+        </tr>
+        <tr>
+          <td>PostgreSQL Instances</td>
+          <td>13.x/14.x</td>
+          <td><span class="badge badge-green">Média</span></td>
+          <td>Estável, múltiplas instâncias</td>
+        </tr>
+        <tr>
+          <td>APM/Observabilidade</td>
+          <td>Ausente/Básico</td>
+          <td><span class="badge badge-red">Crítica</span></td>
+          <td>61% apps sem instrumentação</td>
+        </tr>
+        <tr>
+          <td>Testes Automatizados</td>
+          <td>Fragmentado</td>
+          <td><span class="badge badge-red">Crítica</span></td>
+          <td>82% apps sem cobertura adequada</td>
+        </tr>
+        <tr>
+          <td>CI/CD Pipelines</td>
+          <td>GitLab CI</td>
+          <td><span class="badge badge-amber">Média</span></td>
+          <td>Funcional mas não padronizado</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-label">Solução</div>
+  <h2 class="section-heading">Para onde vamos</h2>
+  
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="componentes">Componentes</button>
+    <button class="tab-btn" data-tab="diagrama">Diagrama</button>
+    <button class="tab-btn" data-tab="principios">Princípios</button>
+  </div>
+  
+  <div class="tab-panel active" id="tab-componentes">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+      <div class="card">
+        <h4>API Gateway Layer</h4>
+        <div class="badge badge-orange">Kong + Istio</div>
+        <p>Rate limiting inteligente, autenticação centralizada e roteamento baseado em políticas para todas as APIs.</p>
+      </div>
+      
+      <div class="card">
+        <h4>GraphQL Federation Gateway</h4>
+        <div class="badge badge-orange">Apollo Federation</div>
+        <p>Agregação de dados unificada, redução de chamadas de rede e experiência de desenvolvimento consistente.</p>
+      </div>
+      
+      <div class="card">
+        <h4>Observability Stack</h4>
+        <div class="badge badge-orange">OpenTelemetry + Dynatrace</div>
+        <p>Visibilidade completa de performance, rastreamento distribuído e alertas proativos baseados em SLI/SLO.</p>
+      </div>
+      
+      <div class="card">
+        <h4>Family Management Service</h4>
+        <div class="badge badge-orange">Node.js + TypeScript</div>
+        <p>Gestão familiar centralizada habilitando funcionalidades NAV 360 e experiência personalizada por perfil.</p>
+      </div>
+      
+      <div class="card">
+        <h4>Event-Driven Architecture</h4>
+        <div class="badge badge-orange">Azure Event Hubs</div>
+        <p>Comunicação assíncrona resiliente, desacoplamento entre serviços e escalabilidade automática baseada em eventos.</p>
+      </div>
+      
+      <div class="card">
+        <h4>Design System Unificado</h4>
+        <div class="badge badge-orange">Storybook + Tokens</div>
+        <p>Experiência consistente entre canais, velocidade de desenvolvimento e redução de retrabalho de UI/UX.</p>
+      </div>
+      
+      <div class="card">
+        <h4>Secrets Management</h4>
+        <div class="badge badge-orange">Azure Key Vault</div>
+        <p>Gestão centralizada e segura de credenciais, compliance automático e auditoria completa de acesso.</p>
+      </div>
+      
+      <div class="card">
+        <h4>Search & Recommendation</h4>
+        <div class="badge badge-orange">Elasticsearch + ML</div>
+        <p>Busca inteligente de conteúdo médico, recomendações personalizadas e insights preditivos de saúde.</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="tab-panel" id="tab-diagrama">
+    <div class="zoom-trigger" onclick="openZoom('tobe-mermaid')">
+      <div id="tobe-mermaid" class="mermaid">
+        flowchart LR
+          subgraph EXP ["Experience Layer"]
+            A[Next.js 14 Web]
+            B[React Native Mobile]
+            C[Micro-frontends]
+            D[Design System]
+          end
+          
+          subgraph GW ["API Gateway Layer"]
+            E[Kong + Istio Gateway]
+            F[GraphQL Federation]
+            G[Rate Limiting & Auth]
+          end
+          
+          subgraph BFF ["BFF Layer"]
+            H[Web BFF]
+            I[Mobile BFF]
+            J[Admin BFF]
+          end
+          
+          subgraph DOM ["Domain Services"]
+            K[Patient Management]
+            L[Scheduling Service]
+            M[Family Management]
+            N[Search & Recommendation]
+          end
+          
+          subgraph PLAT ["Platform Services"]
+            O[Authentication Service]
+            P[Configuration Service]
+            Q[Notification Service]
+          end
+          
+          subgraph OBS ["Observability Stack"]
+            R[OpenTelemetry + Dynatrace]
+            S[ELK Stack Logging]
+            T[Prometheus + Grafana]
+          end
+          
+          EXP --> GW
+          GW --> BFF
+          BFF --> DOM
+          DOM --> PLAT
+          PLAT --> OBS
+          
+          classDef experience fill:#3b82f6,stroke:#1e40af,stroke-width:2px,color:#ffffff
+          classDef gateway fill:#10b981,stroke:#047857,stroke-width:2px,color:#ffffff
+          classDef business fill:#f59e0b,stroke:#d97706,stroke-width:2px,color:#ffffff
+          classDef platform fill:#8b5cf6,stroke:#7c3aed,stroke-width:2px,color:#ffffff
+          classDef observability fill:#ef4444,stroke:#dc2626,stroke-width:2px,color:#ffffff
+          
+          class EXP experience
+          class GW gateway
+          class BFF,DOM business
+          class PLAT platform
+          class OBS observability
+      </div>
+      <div class="zoom-overlay">
+        <div class="zoom-overlay-btn">👁 Visualizar</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="tab-panel" id="tab-principios">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+      <div class="card">
+        <div style="font-size: 24px; margin-bottom: 8px;">🔍</div>
+        <h4>Observabilidade por Design</h4>
+        <p>OpenTelemetry universal em todas as aplicações, dashboards automáticos por domínio de negócio e alertas inteligentes baseados em SLI/SLO para proatividade operacional.</p>
+      </div>
+      
+      <div class="card">
+        <div style="font-size: 24px; margin-bottom: 8px;">🔗</div>
+        <h4>API-First Design</h4>
+        <p>GraphQL Federation para agregação eficiente de dados, OpenAPI 3.0 para contratos versionados e schema evolution sem breaking changes para evolução contínua.</p>
+      </div>
+      
+      <div class="card">
+        <div style="font-size: 24px; margin-bottom: 8px;">☁️</div>
+        <h4>Cloud-Native First</h4>
+        <p>Kubernetes + Istio Service Mesh para orquestração, 12-Factor Apps com configuração externa e auto-scaling baseado em métricas customizadas de negócio.</p>
+      </div>
+      
+      <div class="card">
+        <div style="font-size: 24px; margin-bottom: 8px;">🔐</div>
+        <h4>Security by Design</h4>
+        <p>Zero Trust Model com mTLS automático entre serviços, Azure Key Vault para gestão centralizada de secrets e OAuth 2.0 + PKCE para autenticação moderna.</p>
+      </div>
+      
+      <div class="card">
+        <div style="font-size: 24px; margin-bottom: 8px;">👨‍💻</div>
+        <h4>Developer Experience</h4>
+        <p>Inner Source para compartilhamento de código, GitOps workflows para automação completa e self-service platforms para autonomia das equipes de desenvolvimento.</p>
+      </div>
+      
+      <div class="card">
+        <div style="font-size: 24px; margin-bottom: 8px;">⚡</div>
+        <h4>Event-Driven Architecture</h4>
+        <p>Comunicação assíncrona para resiliência, event sourcing para auditoria completa e stream processing para insights em tempo real de comportamento dos usuários.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-label">Decisões Arquiteturais</div>
+  <h2 class="section-heading">Por que essa solução?</h2>
+  
+  <table class="decision-table">
+    <thead>
+      <tr>
+        <th>Decisão</th>
+        <th>Alternativas Avaliadas</th>
+        <th>Por que Escolhemos</th>
+        <th>Princípio</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Dynatrace como APM principal</strong></td>
+        <td>New Relic, Datadog, AppDynamics, OpenTelemetry puro</td>
+        <td>Melhor integração com Azure, AI automática para root cause, experiência comprovada em enterprise healthcare</td>
+        <td>Observabilidade por Design</td>
+      </tr>
+      <tr>
+        <td><strong>GraphQL Federation vs REST agregado</strong></td>
+        <td>REST com API Gateway, BFFs independentes, GraphQL monolítico</td>
+        <td>Reduz 60% das chamadas de rede mobile, type-safety end-to-end, evolução de schema sem breaking changes</td>
+        <td>API-First Design</td>
+      </tr>
+      <tr>
+        <td><strong>Istio Service Mesh na Fase 2</strong></td>
+        <td>Linkerd, Consul Connect, sem service mesh</td>
+        <td>mTLS automático crucial para healthcare, observabilidade nativa, integração perfeita com Kubernetes existente</td>
+        <td>Cloud-Native + Security</td>
+      </tr>
+      <tr>
+        <td><strong>Azure Key Vault vs HashiCorp Vault</strong></td>
+        <td>HashiCorp Vault, AWS Secrets Manager, Kubernetes Secrets</td>
+        <td>Integração nativa com Azure AD existente, compliance HIPAA automático, menor complexidade operacional</td>
+        <td>Security by Design</td>
+      </tr>
+      <tr>
+        <td><strong>Event-Driven com Azure Event Hubs</strong></td>
+        <td>Apache Kafka, AWS EventBridge, RabbitMQ</td>
+        <td>Integração com ecosystem Azure, auto-scaling nativo, conectores prontos para analytics e ML</td>
+        <td>Cloud-Native First</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <div class="insights-box">
+    <div class="label">💡 Premissas Técnicas e de Custo</div>
+    <ul>
+      <li><strong>Stack Node.js/TypeScript mantido:</strong> 94% das aplicações já usam esta stack - migração seria 4x mais cara que evolução</li>
+      <li><strong>Kubernetes clusters existentes suportam Istio:</strong> Versão 1.27.x confirma compatibilidade, evitando upgrade disruptivo</li>
+      <li><strong>Dynatrace Enterprise já negociado:</strong> Desconto de 40% para healthcare confirmado, ROI positivo em 8 meses</li>
+      <li><strong>Equipe com experiência em GraphQL:</strong> 5 desenvolvedores sêniores já implementaram Federation - reduz curva de aprendizado</li>
+    </ul>
+  </div>
+</section>
+<section class="section" id="ganhos">
+  <div class="section-label">Resultados Esperados</div>
+  <h2 class="section-heading">O que vamos conquistar</h2>
+  
+  <div class="metric-cards">
+    <div class="metric-card">
+      <div class="value" style="color: var(--green)">3x ROI</div>
+      <div class="label">Retorno sobre Investimento</div>
+      <div class="sublabel">R$ 4.2MM investimento, retorno comprovado</div>
+    </div>
+    <div class="metric-card">
+      <div class="value" style="color: var(--green)">60%</div>
+      <div class="label">Redução Time-to-Market</div>
+      <div class="sublabel">De 12 para 5 semanas para novas features</div>
+    </div>
+    <div class="metric-card">
+      <div class="value" style="color: var(--green)">40%</div>
+      <div class="label">Aumento Velocidade</div>
+      <div class="sublabel">Entrega e resolução de incidentes</div>
+    </div>
+    <div class="metric-card">
+      <div class="value" style="color: var(--green)">70%</div>
+      <div class="label">Redução MTTR</div>
+      <div class="sublabel">De 45min para 15min média</div>
+    </div>
+  </div>
+  
+  <div class="subtabs">
+    <div class="subtab-btn active" data-subtab="radar">Maturidade</div>
+    <div class="subtab-btn" data-subtab="evolucao">Gaps</div>
+  </div>
+  
+  <div class="subtab-panel active" id="subtab-radar">
+    <div class="chart-wrap">
+      <div class="chart-title">Maturidade Atual vs. Futura</div>
+      <canvas id="radarChart" width="400" height="300"></canvas>
+      <p>Este radar mostra a evolução da maturidade técnica em 8 dimensões críticas. A transformação eleva todas as dimensões para nível 4-5, com destaque para Observabilidade (2→5), Testes (2→5) e Event-Driven (1→4). Containerização e Autenticação mantêm alta maturidade por já estarem consolidadas.</p>
+    </div>
+  </div>
+  
+  <div class="subtab-panel" id="subtab-evolucao">
+    <div class="chart-wrap">
+      <div class="chart-title">Gap por Dimensão (Score 1-5)</div>
+      <canvas id="barChart" width="400" height="300"></canvas>
+      <p>Os maiores gaps estão em Observabilidade (gap de 3 pontos), Testes Automatizados (gap de 3 pontos) e Event-Driven (gap de 3 pontos). Estas dimensões recebem prioridade P0 no roadmap por serem bloqueadoras para funcionalidades estratégicas como Hero Personalizado e Gestão Familiar.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="governanca">
+  <div class="section-label">Governança</div>
+  <h2 class="section-heading">Resolução de GAPs</h2>
+  
+  <div style="text-align: center; margin: 32px 0;">
+    <span style="font-size: 48px; font-weight: 800; color: var(--green);">9 de 10 GAPs</span>
+    <div style="margin-top: 8px; font-size: 18px; color: var(--text-secondary);">endereçados no TO-BE</div>
+  </div>
+  
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>GAP Crítico</th>
+        <th>Criticidade</th>
+        <th>Iniciativa Relacionada</th>
+        <th>Status no TO-BE</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>APM/Observabilidade Ausente</td>
+        <td><span class="badge badge-red">Crítico</span></td>
+        <td>APM Dynatrace Universal</td>
+        <td><span class="badge badge-green">Endereçado</span></td>
+      </tr>
+      <tr>
+        <td>Testes Automatizados Ausentes</td>
+        <td><span class="badge badge-red">Crítico</span></td>
+        <td>Pirâmide de Testes Obrigatória</td>
+        <td><span class="badge badge-green">Endereçado</span></td>
+      </tr>
+      <tr>
+        <td>Documentação Arquitetural Inconsistente</td>
+        <td><span class="badge badge-red">Crítico</span></td>
+        <td>Clean Architecture + OpenAPI 3.0</td>
+        <td><span class="badge badge-green">Endereçado</span></td>
+      </tr>
+      <tr>
+        <td>Secrets Management Fragmentado</td>
+        <td><span class="badge badge-amber">Alto</span></td>
+        <td>Azure Key Vault Centralizado</td>
+        <td><span class="badge badge-green">Endereçado</span></td>
+      </tr>
+      <tr>
+        <td>Health Checks Não Padronizados</td>
+        <td><span class="badge badge-amber">Alto</span></td>
+        <td>Health Checks Padronizados</td>
+        <td><span class="badge badge-green">Endereçado</span></td>
+      </tr>
+      <tr>
+        <td>Logging Estruturado Ausente</td>
+        <td><span class="badge badge-amber">Alto</span></td>
+        <td>ELK Stack + OpenTelemetry</td>
+        <td><span class="badge badge-green">Endereçado</span></td>
+      </tr>
+      <tr>
+        <td>Service Mesh Ausente</td>
+        <td><span class="badge badge-amber">Alto</span></td>
+        <td>Istio Service Mesh</td>
+        <td><span class="badge badge-blue">No Roadmap</span></td>
+      </tr>
+      <tr>
+        <td>Arquitetura Não Estruturada</td>
+        <td><span class="badge badge-amber">Alto</span></td>
+        <td>Clean Architecture Universal</td>
+        <td><span class="badge badge-green">Endereçado</span></td>
+      </tr>
+      <tr>
+        <td>Event-Driven Ausente</td>
+        <td><span class="badge badge-amber">Alto</span></td>
+        <td>Event-Driven Architecture</td>
+        <td><span class="badge badge-green">Endereçado</span></td>
+      </tr>
+      <tr>
+        <td>GitOps Workflows Ausentes</td>
+        <td><span class="badge badge-blue">Médio</span></td>
+        <td>GitOps + Self-Service</td>
+        <td><span class="badge badge-amber">Parcial</span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="section" id="roadmap">
+  <div class="section-label">Execução</div>
+  <h2 class="section-heading">Como chegamos lá</h2>
+  
+  <div class="roadmap-phases">
+    <div class="phase-card">
+      <div class="phase-num">FASE 1</div>
+      <div class="phase-name">Quick Wins</div>
+      <div class="phase-period">0-3 meses</div>
+      <ul>
+        <li>Health Checks Padronizados (23 apps)</li>
+        <li>Logging Estruturado (25 apps)</li>
+        <li>Secrets Azure Key Vault (28 apps)</li>
+        <li>Setup ferramentas de observabilidade</li>
+      </ul>
+    </div>
+    <div class="phase-card">
+      <div class="phase-num">FASE 2</div>
+      <div class="phase-name">Fundação</div>
+      <div class="phase-period">3-9 meses</div>
+      <ul>
+        <li>APM Dynatrace Universal (23 apps)</li>
+        <li>Testes Automatizados (31 apps)</li>
+        <li>GraphQL Federation (16 apps)</li>
+        <li>Dashboards e alertas automáticos</li>
+      </ul>
+    </div>
+    <div class="phase-card">
+      <div class="phase-num">FASE 3</div>
+      <div class="phase-name">Escala</div>
+      <div class="phase-period">9-18 meses</div>
+      <ul>
+        <li>Service Mesh Istio (38 apps)</li>
+        <li>Event-Driven Architecture (36 apps)</li>
+        <li>Clean Architecture Universal</li>
+        <li>Funcionalidades NAV 360 habilitadas</li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="zoom-trigger" onclick="openZoom('gantt-div')">
+    <div id="gantt-div" class="mermaid">
+      gantt
+          title Roadmap de Transformação (20 Meses)
+          dateFormat YYYY-MM
+          axisFormat %m/%y
+          
+          section Quick Wins (0-3m)
+          Health Checks Padronizados    :quick1, 2026-04, 2M
+          Logging Estruturado           :quick2, 2026-04, 2M
+          Secrets Azure Key Vault       :quick3, 2026-05, 1M
+          
+          section Fundação (3-9m)
+          APM Dynatrace Universal       :fund1, 2026-07, 3M
+          Testes Automatizados          :fund2, 2026-08, 4M
+          GraphQL Federation            :fund3, 2026-10, 3M
+          
+          section Escala (9-18m)
+          Service Mesh Istio            :scale1, 2027-01, 4M
+          Event-Driven Architecture     :scale2, 2027-03, 6M
+          Clean Architecture            :scale3, 2027-05, 8M
+    </div>
+    <div class="zoom-overlay">
+      <div class="zoom-overlay-btn">👁 Visualizar</div>
+    </div>
+  </div>
+  
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 32px;">
+    <div class="card">
+      <div style="font-size: 24px; font-weight: bold; color: var(--primary);">Mês 3</div>
+      <h4>Quick Wins Entregues</h4>
+      <p>Observabilidade básica e secrets seguros em 50+ aplicações</p>
+    </div>
+    <div class="card">
+      <div style="font-size: 24px; font-weight: bold; color: var(--primary);">Mês 9</div>
+      <h4>Fundação Sólida</h4>
+      <p>APM universal, testes automáticos e APIs federadas</p>
+    </div>
+    <div class="card">
+      <div style="font-size: 24px; font-weight: bold; color: var(--primary);">Mês 18</div>
+      <h4>Escala Completa</h4>
+      <p>Service mesh, event-driven e arquitetura limpa universal</p>
+    </div>
+    <div class="card">
+      <div style="font-size: 24px; font-weight: bold; color: var(--primary);">Mês 20</div>
+      <h4>NAV 360 Habilitado</h4>
+      <p>Hero Personalizado, Gestão Familiar e NASI Centralizado</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="decisao">
+  <div class="section-label">Próximos Passos</div>
+  <h2 class="section-heading">O que precisamos decidir</h2>
+  
+  <h4>Decisões Necessárias</h4>
+  <table class="decision-table">
+    <thead>
+      <tr>
+        <th>Decisão</th>
+        <th>Responsável</th>
+        <th>Prazo</th>
+        <th>Impacto</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Aprovação orçamentária R$ 4.2MM</td>
+        <td>C-Level</td>
+        <td>15 dias</td>
+        <td>Sem decisão, não iniciamos e competitividade é perdida</td>
+      </tr>
+      <tr>
+        <td>Liberação 70% tempo de 3 squads</td>
+        <td>Head of Engineering</td>
+        <td>30 dias</td>
+        <td>Sem capacidade dedicada, prazo aumenta 2x</td>
+      </tr>
+      <tr>
+        <td>Aprovação Dynatrace + Azure premium</td>
+        <td>CTO + Procurement</td>
+        <td>20 dias</td>
+        <td>Observabilidade não funciona com ferramentas básicas</td>
+      </tr>
+      <tr>
+        <td>Contratação 2 SREs + 1 Arquiteto</td>
+        <td>Head of People</td>
+        <td>45 dias</td>
+        <td>Gaps críticos de expertise impedem execução</td>
+      </tr>
+      <tr>
+        <td>Estabelecimento Comitê de Direção</td>
+        <td>C-Level</td>
+        <td>7 dias</td>
+        <td>Sem governança, iniciativa perde foco e momentum</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <h4 style="margin-top: 32px;">Próximos 30 dias</h4>
+  <table class="decision-table">
+    <thead>
+      <tr>
+        <th>Ação</th>
+        <th>Responsável</th>
+        <th>Prazo</th>
+        <th>Dependência</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Aprovar Comitê de Direção e primeira reunião</td>
+        <td>C-Level</td>
+        <td>7 dias</td>
+        <td>Decisão estratégica</td>
+      </tr>
+      <tr>
+        <td>Selecionar 4 aplicações piloto</td>
+        <td>Arquitetura + Tech Leads</td>
+        <td>14 dias</td>
+        <td>Comitê estabelecido</td>
+      </tr>
+      <tr>
+        <td>Provisionar ferramentas base</td>
+        <td>Platform Team</td>
+        <td>21 dias</td>
+        <td>Aprovação orçamentária</td>
+      </tr>
+      <tr>
+        <td>Formar squad de transformação</td>
+        <td>Head of Engineering</td>
+        <td>30 dias</td>
+        <td>Aprovação de capacidade</td>
+      </tr>
+      <tr>
+        <td>Estabelecer métricas baseline</td>
+        <td>SRE Team</td>
+        <td>30 dias</td>
+        <td>Ferramentas provisionadas</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <div class="warn-box">
+    <div class="label">⚠ Custo da Inação</div>
+    <ul>
+      <li>Janela de 12-18 meses para transformação pode fechar — após isso, complexidade torna mudança inviável</li>
+      <li>Débito técnico crescente custará 3x mais para resolver em 2 anos</li>
+      <li>Concorrentes com stack moderno ganharão vantagem competitiva irreversível</li>
+    </ul>
+  </div>
+  
+  <div class="success-box">
+    <div class="label">✅ Pronto para Iniciar</div>
+    <p>Stack moderno estabelecido, equipe experiente e roadmap validado. Com decisão executiva nos próximos 15 dias, iniciamos Quick Wins em abril e entregamos primeira onda de valor em 90 dias. O momento é agora — temos todos os elementos para sucesso.</p>
+  </div>
+</section>
+<div class="zoom-modal" id="zoom-modal">
+<div class="zoom-modal-inner">
+<button class="zoom-modal-close" onclick="closeZoom()">✕</button>
+<div id="zoom-modal-content"></div>
+</div>
+</div>
+
+<footer style="background:var(--navy);color:rgba(255,255,255,0.4);text-align:center;padding:24px;font-size:12px;">
+NAV · Pitch Deck Executivo — Transformação Digital · Confidencial
+</footer>
+
+
+<script>
+window.CHART_DIMS  = ['Arquitetura', 'Tecnologia', 'Infraestrutura', 'Observabilidade', 'Segurança', 'Processos', 'Pessoas'];
+window.CHART_ATUAL = [2.0, 4.0, 4.5, 1.25, 1.5, 1.65, 1.0];
+window.CHART_ALVO  = [4.5, 4.5, 5.0, 4.5, 4.5, 4.5, 4.5];
+</script>
+<script>
+if(typeof Chart!=='undefined'){
+Chart.defaults.font.family="'DM Sans',sans-serif";
+Chart.defaults.color='#7A8599';
+}
+if(typeof mermaid!=='undefined'){
+mermaid.initialize({startOnLoad:true,theme:'dark'});
+}
+function initTabs(){
+document.querySelectorAll('.tabs').forEach(function(tabsEl){
+tabsEl.querySelectorAll('.tab-btn').forEach(function(btn){
+btn.addEventListener('click',function(){
+tabsEl.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+var scope=tabsEl.closest('section')||tabsEl.parentElement;
+scope.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active');});
+btn.classList.add('active');
+var panel=document.getElementById('tab-'+btn.dataset.tab);
+if(panel){panel.classList.add('active');resizeCharts(panel);}
+});
+});
+});
+}
+function initSubtabs(){
+document.querySelectorAll('.subtabs').forEach(function(subtabsEl){
+subtabsEl.querySelectorAll('.subtab-btn').forEach(function(btn){
+btn.addEventListener('click',function(){
+subtabsEl.querySelectorAll('.subtab-btn').forEach(function(b){b.classList.remove('active');});
+var scope=subtabsEl.closest('section')||subtabsEl.parentElement;
+scope.querySelectorAll('.subtab-panel').forEach(function(p){p.classList.remove('active');});
+btn.classList.add('active');
+var panel=document.getElementById('subtab-'+btn.dataset.subtab);
+if(panel){panel.classList.add('active');resizeCharts(panel);}
+});
+});
+});
+}
+function openZoom(id){
+var el=document.getElementById(id);
+if(!el){return;}
+var clone=el.cloneNode(true);
+clone.style.cssText='width:80vw;height:auto;max-width:1200px;display:block;';
+var ov=clone.querySelector('.zoom-overlay');
+if(ov)ov.remove();
+var modal=document.getElementById('zoom-modal');
+var content=document.getElementById('zoom-modal-content');
+if(!modal||!content){return;}
+content.innerHTML='';
+content.appendChild(clone);
+modal.classList.add('open');
+document.body.style.overflow='hidden';
+}
+function closeZoom(){
+var m=document.getElementById('zoom-modal');
+if(m)m.classList.remove('open');
+document.body.style.overflow='';
+}
+function initZoom(){
+var modal=document.getElementById('zoom-modal');
+if(modal){modal.addEventListener('click',function(e){if(e.target===e.currentTarget)closeZoom();});}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeZoom();});
+document.querySelectorAll('.zoom-trigger').forEach(function(el){
+var ov=el.querySelector('.zoom-overlay');
+if(!ov)return;
+el.addEventListener('mouseenter',function(){ov.style.opacity='1';});
+el.addEventListener('mouseleave',function(){ov.style.opacity='0';});
+});
+}
+function initScroll(){
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+a.addEventListener('click',function(e){
+var t=document.querySelector(a.getAttribute('href'));
+if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}
+});
+});
+}
+var _radarInst=null,_barInst=null;
+function initCharts(){
+var dims  = window.CHART_DIMS  || ['Arquitetura','Tecnologia','Infraestrutura','Observabilidade','Segurança','Processos','Pessoas'];
+var atual = window.CHART_ATUAL || [0,0,0,0,0,0,0];
+var alvo  = window.CHART_ALVO  || [0,0,0,0,0,0,0];
+var radarEl=document.getElementById('radarChart');
+var barEl  =document.getElementById('barChart');
+if(radarEl&&typeof Chart!=='undefined'){
+_radarInst=new Chart(radarEl.getContext('2d'),{
+type:'radar',
+data:{labels:dims,datasets:[
+{label:'Estado Atual',data:atual,backgroundColor:'rgba(240,68,56,0.25)',borderColor:'#F04438',pointBackgroundColor:'#F04438',pointBorderColor:'#fff',pointRadius:5,borderWidth:2},
+{label:'Estado Alvo (TO-BE)',data:alvo,backgroundColor:'rgba(18,183,106,0.25)',borderColor:'#12B76A',pointBackgroundColor:'#12B76A',pointBorderColor:'#fff',pointRadius:5,borderWidth:2}
+]},
+options:{responsive:true,plugins:{legend:{position:'top',labels:{color:'#3D4659',font:{size:13}}}},scales:{r:{min:0,max:5,ticks:{stepSize:1,color:'#7A8599',backdropColor:'transparent'},grid:{color:'#E4E8EF'},angleLines:{color:'#E4E8EF'},pointLabels:{color:'#3D4659',font:{size:12}}}}}
+});
+}
+if(barEl&&typeof Chart!=='undefined'){
+_barInst=new Chart(barEl.getContext('2d'),{
+type:'bar',
+data:{labels:dims,datasets:[
+{label:'Estado Atual',data:atual,backgroundColor:'rgba(240,68,56,0.7)',borderColor:'#F04438',borderWidth:1,borderRadius:6},
+{label:'Estado Alvo (TO-BE)',data:alvo,backgroundColor:'rgba(18,183,106,0.7)',borderColor:'#12B76A',borderWidth:1,borderRadius:6}
+]},
+options:{responsive:true,plugins:{legend:{position:'top',labels:{color:'#3D4659',font:{size:13}}}},scales:{x:{grid:{display:false},ticks:{color:'#7A8599'}},y:{min:0,max:5,grid:{color:'#E4E8EF'},ticks:{stepSize:1,color:'#7A8599'}}}}
+});
+}
+}
+function resizeCharts(panel){
+if(!panel||typeof Chart==='undefined')return;
+setTimeout(function(){
+if(_radarInst&&panel.contains(document.getElementById('radarChart')))_radarInst.resize();
+if(_barInst  &&panel.contains(document.getElementById('barChart')))  _barInst.resize();
+},50);
+}
+document.addEventListener('DOMContentLoaded',function(){
+initTabs();initSubtabs();initZoom();initScroll();initCharts();
+});
+</script>
+</body>
+</html>

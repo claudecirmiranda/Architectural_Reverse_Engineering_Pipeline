@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc -l \"D:\\\\work\\\\dasa\\\\reverse_engineering\\\\Pipeline\"/*.py)"
+    ]
+  }
+}
