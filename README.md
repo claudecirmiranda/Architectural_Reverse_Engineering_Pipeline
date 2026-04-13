@@ -34,8 +34,9 @@ sequenceDiagram
     participant S2 as 02_integration_mapper
     participant S3 as 03_layer_analyzer
     participant BG as blueprint_generator_ai
-    participant TB as to_be_generator
+    participant BE as blueprint_extractor
     participant GA as gap_analyzer_v5
+    participant TB as tobe_generator_v5
     participant RG as roadmap_generator
     participant CL as clevel_report_agent
     participant PD as pitchdeck_agent
@@ -57,26 +58,32 @@ sequenceDiagram
     S3->>S3: identifica camadas (controllers, services, repos…)
     S3-->>BG: layers_analysis.json
 
-    Note over BG,PD: FASE 2 — Síntese com Claude AI
+    Note over BG,BE: FASE 2 — Blueprints + Extração (IA + parser determinístico)
 
     BG->>BG: carrega scanner + integration + layers + blueprint_example.md
     BG->>BG: gera blueprint por aplicação (streaming)
-    BG-->>TB: {app}_blueprint.md (um por aplicação)
+    BG-->>BE: {app}_blueprint.md (um por aplicação)
 
-    TB->>TB: consolida todos os blueprints
-    TB->>TB: geração multi-parte (evita limite de tokens)
-    TB-->>GA: TO_BE_Model_*.md
+    BE->>BE: parser determinístico — lê .txt + blueprints
+    BE->>BE: normaliza sinais, calcula scores por dimensão
+    BE-->>GA: portfolio_structured.json + portfolio_summary.md
 
-    GA->>GA: carrega portfolio_structured.json + TO-BE
+    Note over GA,RG: FASE 3 — Síntese com Claude AI
+
+    GA->>GA: carrega portfolio_structured.json
     GA->>GA: 6 chamadas independentes por seção
     Note right of GA: Seções: Executivo, Dimensões,<br/>Heatmap, Débito, ROI+DORA
-    GA-->>RG: Gap_Analysis_*.md
+    GA-->>TB: Gap_Analysis_*.md
+
+    TB->>TB: carrega portfolio_structured.json + Gap Analysis
+    TB->>TB: 9 chamadas por área (stack, arch, APIs, obs, sec, cicd, dados…)
+    TB-->>RG: TO_BE_Model_v4_*.md
 
     RG->>RG: carrega TO-BE + Gap Analysis (resumidos)
     RG->>RG: geração multi-parte com regras anti-alucinação
     RG-->>CL: Adoption_Roadmap_*.md
 
-    Note over CL,PD: FASE 3 — Relatórios Executivos
+    Note over CL,PD: FASE 4 — Relatórios Executivos
 
     CL->>CL: lê as-is.md + gaps.md + to-be.md
     CL-->>PD: clevel-strategic-report.md
@@ -129,11 +136,16 @@ sequenceDiagram
                        │ {app}_blueprint.md (por aplicação)
                        │
           ┌────────────▼────────────┐
-          │   to_be_generator       │
-          │   Modelo TO-BE          │
-          │   (geração multi-parte) │
+          │   blueprint_extractor   │
+          │   Parser determinístico │
+          │   Scores por dimensão   │
           └────────────┬────────────┘
-                       │ TO_BE_Model_*.md
+                       │ portfolio_structured.json
+                       │ portfolio_summary.md
+                       │
+         ══════════════╪══════════════
+          BASE FACTUAL  │  completa para síntese IA
+         ══════════════╪══════════════
                        │
           ┌────────────▼────────────┐
           │   gap_analyzer_v5       │
@@ -143,11 +155,18 @@ sequenceDiagram
                        │ Gap_Analysis_*.md
                        │
           ┌────────────▼────────────┐
+          │   tobe_generator_v5     │
+          │   Modelo TO-BE          │
+          │   (informado pelos gaps) │
+          └────────────┬────────────┘
+                       │ TO_BE_Model_v4_*.md
+                       │
+          ┌────────────▼────────────┐
           │   roadmap_generator     │
           │   Iniciativas x Ondas   │
           │   Dependências e KPIs   │
           └────────────┬────────────┘
-                       │ Roadmap_*.md / Adoption_Roadmap_*.md
+                       │ Adoption_Roadmap_*.md
                        │
           ┌────────────┴────────────┐
           │                         │
@@ -240,13 +259,18 @@ Saída: `outputs/{projeto}/blueprints/{app}_blueprint.md`
 
 ---
 
-#### Estágio 5 — TO-BE Generator (`to_be_generator.py`)
+#### Estágio 5 — Blueprint Extractor (`blueprint_extractor.py`)
 
-Gera o modelo de arquitetura futura consolidado. Usa **geração multi-parte** para contornar limites de tokens — cada módulo do modelo TO-BE é gerado em uma chamada separada e o documento final é montado em Python.
+Parser **determinístico** (sem IA) que lê os blueprints e os arquivos `.txt` de cada aplicação e produz a base factual estruturada para as etapas de IA subsequentes.
 
-Entradas: todos os blueprints AS-IS + análise de gaps existente (se disponível).
+Para cada aplicação extrai e normaliza:
+- Sinais de tecnologia (stack, testes, observabilidade, segurança, CI/CD, dados)
+- Score de maturidade por dimensão (0–5) com cálculo auditável
+- Contagem de gaps críticos e lista de sinais ausentes
 
-Saída: `outputs/TO_BE_Model_*.md`
+Saídas:
+- `outputs/portfolio_structured.json` — entrada obrigatória do `gap_analyzer_v5` e do `tobe_generator_v5`
+- `outputs/portfolio_summary.md` — tabela auditável para revisão humana
 
 ---
 
@@ -268,14 +292,25 @@ Benchmarks injetados automaticamente na seção de ROI:
 - **CISQ Cost of Poor Software Quality** (2022)
 - **Verizon DBIR 2023 / GitGuardian 2023**
 
-Fonte obrigatória: `outputs/portfolio_structured.json`  
-Fonte opcional: `outputs/portfolio_summary.md`
+Entrada obrigatória: `outputs/portfolio_structured.json`  
+Entrada opcional: `outputs/portfolio_summary.md`
 
 Saída: `outputs/Gap_Analysis_*.md`
 
 ---
 
-#### Estágio 7 — Roadmap Generator (`roadmap_generator.py`)
+#### Estágio 7 — TO-BE Generator (`tobe_generator_v5.py`)
+
+Gera o modelo de arquitetura futura **informado pela análise de gaps** — cada decisão técnica referencia explicitamente o gap que resolve e as aplicações afetadas. Usa **9 chamadas independentes** (uma por área: sumário, arquitetura de referência, stack, APIs, observabilidade, segurança, CI/CD, dados, capacidades e roadmap).
+
+Entradas obrigatórias: `outputs/portfolio_structured.json` + `outputs/Gap_Analysis_*.md` (mais recente).  
+Entrada opcional: `outputs/Concept_NAV_360.md` (visão estratégica de negócio).
+
+Saída: `outputs/TO_BE_Model_v4_*.md`
+
+---
+
+#### Estágio 8 — Roadmap Generator (`roadmap_generator.py`)
 
 Gera o roadmap de adoção em múltiplas partes. Cada iniciativa obrigatoriamente cita o gap que endereça. Valores financeiros só são incluídos se explicitamente presentes nos dados de entrada — caso contrário, usa `⚠️ Financeiro: TBD`.
 
@@ -360,7 +395,7 @@ python run_transformation_analysis.py
 O orquestrador:
 1. Verifica pré-requisitos (API key, biblioteca `anthropic`, diretório `outputs/`)
 2. Pergunta se deve regenerar artefatos existentes em cada estágio
-3. Executa os 4 estágios principais em sequência
+3. Executa os 5 estágios principais em sequência (na ordem correta de dependências)
 4. Gera `outputs/INDEX.md` com índice de toda a documentação produzida
 
 ### Estágios individuais
@@ -371,10 +406,13 @@ python 01_scanner.py
 python 02_integration_mapper.py
 python 03_layer_analyzer.py
 
-# Síntese com IA (requer ANTHROPIC_API_KEY + outputs dos estágios acima)
+# Blueprints e extração (requer ANTHROPIC_API_KEY + outputs acima)
 python blueprint_generator_ai.py
-python to_be_generator.py
+python blueprint_extractor.py         # gera portfolio_structured.json (obrigatório para etapas seguintes)
+
+# Síntese com IA (na ordem correta — gap analysis alimenta o TO-BE)
 python gap_analyzer_v5.py
+python tobe_generator_v5.py
 python roadmap_generator.py
 
 # Relatórios executivos
@@ -382,10 +420,9 @@ python clevel_report_agent.py
 python pitchdeck_agent.py
 ```
 
-### Agentes auxiliares
+### Ferramentas auxiliares
 
 ```bash
-python blueprint_extractor.py         # Extrai e consolida blueprints existentes
 python cross_alignment_analyzer.py    # Análise de alinhamento cruzado entre aplicações
 python concept_transcript_analyzer.py # Análise de transcrições e documentos conceituais
 python documentation_generator.py     # Geração de documentação por repositório
@@ -404,17 +441,19 @@ outputs/
 │   ├── integration_map.json          # Mapa de integrações por aplicação
 │   └── layers_analysis.json          # Análise de camadas arquiteturais
 ├── {projeto}/
+│   ├── {app}.txt                     # Dados brutos: scanner + integration + layers (3 seções JSON)
 │   └── blueprints/
 │       └── {app}_blueprint.md        # Blueprint AS-IS por aplicação
-├── to_be_parts/                      # Fragmentos intermediários do TO-BE
+├── portfolio_structured.json         # Base factual estruturada (saída do blueprint_extractor)
+├── portfolio_summary.md              # Tabela auditável de sinais por aplicação
+├── Gap_Analysis_*.md                 # Análise de gaps com benchmarks de mercado
+├── TO_BE_Model_v4_*.md               # Modelo de arquitetura futura (informado pelos gaps)
+├── Adoption_Roadmap_*.md             # Roadmap de adoção por ondas
 ├── reports/
 │   ├── as-is.md                      # Consolidado AS-IS para relatório C-Level
 │   ├── gaps.md                       # Consolidado de gaps para relatório C-Level
 │   ├── to-be.md                      # Consolidado TO-BE para relatório C-Level
 │   └── clevel-strategic-report.md    # Relatório estratégico C-Level
-├── TO_BE_Model_*.md                  # Modelo de arquitetura futura
-├── Gap_Analysis_*.md                 # Análise de gaps com benchmarks de mercado
-├── Adoption_Roadmap_*.md             # Roadmap de adoção por ondas
 └── pitch_deck.html                   # Apresentação executiva (HTML standalone)
 ```
 
